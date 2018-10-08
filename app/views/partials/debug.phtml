@@ -1,0 +1,23 @@
+<table class="table">
+	<tr>
+		<th>SQL语句</th>
+		<th>开始时间</th>
+		<th>结束时间</th>
+		<th>消耗时间</th>
+	</tr>
+<?php
+// 获取所有的prifler记录结果，这是一个数组，每条记录对应一个sql语句
+$profiles = $this->di->get('profiler')->getProfiles();
+?>
+<?php
+// 遍历输出
+foreach ($profiles as $profile) {
+    ?>
+<tr>
+		<td><?= $profile->getSQLStatement()?></td>
+		<td><?= $profile->getInitialTime()?></td>
+		<td><?= $profile->getFinalTime()?></td>
+		<td><?= $profile->getTotalElapsedSeconds()?></td>
+	</tr>
+<?php }?>
+</table>

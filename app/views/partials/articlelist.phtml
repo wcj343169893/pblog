@@ -1,0 +1,17 @@
+<?php foreach ($page->items as $article){?>
+<div class="list">
+	<h2>
+		<a href="/blog/<?php echo $article->id?>.html"><?php echo $article->articleTitle?></a>
+		&nbsp;<small><small>浏览:<?= $article->articleViewCount?></small></small>
+	</h2>
+	<p><?= date("Y-m-d",strtotime($article->articleCreateDate))?></p>
+	<?php if(!empty($article->articleTags)){?>
+	<p class="tags">
+		<?php foreach (explode(" ", $article->articleTags) as $tk =>$tag){?>
+		<a href="/tag/<?= $tag?>.html" class="label <?= $tagNames[$tk%5]?>"><?= $tag?></a> 
+		<?php }?>
+	</p>
+	<?php }?>
+	<p><?php echo $article->articleAbstract?> <a href="/blog/<?php echo $article->id?>.html" class="btn">查看详细</a></p>
+</div>
+<?php }?>

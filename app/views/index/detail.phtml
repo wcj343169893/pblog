@@ -1,0 +1,13 @@
+<div class="page-header">
+	<h1><a href="/blog/<?= $data->id?>.html"><?= $data->articleTitle?></a></h1>
+</div>
+<p><?= $data->articleCreateDate?>&nbsp;&nbsp;<span>浏览:<?= $data->articleViewCount?></span></p>
+<?php if(!empty($data->articleTags)){?>
+<p class="tags">
+	<?php foreach (explode(" ", $data->articleTags) as $tk =>$tag){?>
+	<a href="/tag/<?= urlencode($tag)?>.html" class="label <?= $tagNames[$tk%5]?>"><?= $tag?></a> 
+	<?php }?>
+</p>
+<?php }?>
+<div class="content"><?= $data->articleContent?></div>
+<p><a class="btn btn-primary btn-lg" href="/" role="button">返回首页</a></p>

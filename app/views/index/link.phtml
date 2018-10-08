@@ -1,0 +1,6 @@
+<?php $this->view->partial("partials/header");?>
+<div class="list-group col-md-4" style="min-height: 300px;">
+<?php foreach ($links as $link){?>
+<a class="list-group-item" href="<?= $link->linkAddress?>" target="_blank"><?= $link->linkTitle?></a>
+<?php }?>
+</div>

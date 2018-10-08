@@ -1,0 +1,6 @@
+<?php $this->view->partial("partials/header");?>
+<div class="tagpage">
+<?php foreach ($tags as $tk=>$tag){?>
+		<a href="/tag/<?= urlencode($tag->tagTitle)?>.html" class="label <?= $tagNames[$tk%5]?>"><?= $tag->tagTitle?></a> 
+<?php }?>
+</div>

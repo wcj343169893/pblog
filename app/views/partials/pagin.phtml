@@ -1,0 +1,40 @@
+<ul class="pagination pc_pager">
+	<?php if($page->before!=1){?>
+    <li><a href="<?= $plink.$page->before; ?>.html">&laquo;</a></li>
+	<?php }?>
+	<?php 
+	$preMax=3;
+	$afterMax=3;
+	$preCount = min([$preMax,$page->current-1]);
+	$afterCount = min([$afterMax,$page->total_pages-$page->current]);
+	if($afterCount < $afterMax){
+	    $preCount+=$afterMax-$afterCount;
+	}
+	if($preCount < $preMax){
+	    $afterCount+=$preMax-$preCount;
+	}
+	?>
+	<?php 
+	for($i=$preCount;$i>0;$i--){
+	$p=$page->current-$i;
+	if($p>0){
+	?>
+	 <li><a href="<?= $plink.$p; ?>.html"><?= $p?></a></li>
+	<?php }}?>
+	<li class="active"><a href="<?= $plink.$page->current; ?>.html"><?=$page->current?></a></li>
+	<?php for ($i=1;$i<=$afterCount;$i++){
+	    $p=$page->current+$i;
+	    if($p<=$page->total_pages){
+	    ?>
+	 <li><a href="<?= $plink.$p; ?>.html"><?= $p?></a></li>
+	<?php }}?>
+    <?php if($page->next!=$page->last){?>
+    <li><a href="<?= $plink.$page->next; ?>.html">&raquo;</a></li>
+    <?php }?>
+</ul>
+
+<ul class="pager mobile_pager">
+    <li class="previous"><a href="<?= $plink.$page->before; ?>.html"><span aria-hidden="true">&larr;</span> 上一页</a></li>
+	<li class="next"><a href="<?= $plink.$page->next; ?>.html">下一页 <span aria-hidden="true">&rarr;</span></a></li>
+</ul>
+<div class="clear"></div>
