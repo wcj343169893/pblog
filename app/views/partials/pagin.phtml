@@ -1,5 +1,5 @@
 <ul class="pagination pc_pager">
-	<?php if($page->before!=1){?>
+	<?php if($page->before!=$page->current){?>
     <li><a href="<?= $plink.$page->before; ?>.html">&laquo;</a></li>
 	<?php }?>
 	<?php 
@@ -28,13 +28,17 @@
 	    ?>
 	 <li><a href="<?= $plink.$p; ?>.html"><?= $p?></a></li>
 	<?php }}?>
-    <?php if($page->next!=$page->last){?>
+    <?php if($page->current!=$page->last){?>
     <li><a href="<?= $plink.$page->next; ?>.html">&raquo;</a></li>
     <?php }?>
 </ul>
 
 <ul class="pager mobile_pager">
+	<?php if($page->before!=$page->current){?>
     <li class="previous"><a href="<?= $plink.$page->before; ?>.html"><span aria-hidden="true">&larr;</span> 上一页</a></li>
+	<?php }?>
+	<?php if($page->current != $page->last){?>
 	<li class="next"><a href="<?= $plink.$page->next; ?>.html">下一页 <span aria-hidden="true">&rarr;</span></a></li>
+	<?php }?>
 </ul>
 <div class="clear"></div>

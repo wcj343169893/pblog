@@ -38,10 +38,13 @@ try {
      * Handle the request
      */
     $application = new \Phalcon\Mvc\Application($di);
-
-    echo str_replace(["\n","\r","\t"], '', $application->handle()->getContent());
+    //个人觉得开启了gzip 这里就没必要压缩
+    echo $application->handle()->getContent();
+    //echo str_replace(["\n","\r","\t"], '', $application->handle()->getContent());
+    //echo str_replace(["\n"], '', $application->handle()->getContent());
 
 } catch (\Exception $e) {
-    echo $e->getMessage() . '<br>';
-    echo '<pre>' . $e->getTraceAsString() . '</pre>';
+    echo "error";
+    //echo $e->getMessage() . '<br>';
+    //echo '<pre>' . $e->getTraceAsString() . '</pre>';
 }

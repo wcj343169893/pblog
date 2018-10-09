@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="CakePHP" default="build">
+        <property file="build.properties" />
+
+        <!-- The set of files we're going to package Exclude the cli scripts, as
+                they get installed separately. -->
+        <fileset id="libs" dir="./">
+                <include name="**" />
+                <!--<exclude name="app/Config/**" /> -->
+                <exclude name=".settings/**" />
+        </fileset>
+        <!-- clean cache files -->
+        <target name="clean">
+                <delete verbose="true" includeemptydirs="true" quiet="true">
+                        <fileset dir="${dist.dir}/tmp/cache/persistent">
+                                <include name="**/*" />
+                        </fileset>
+                </delete>
+                <delete verbose="true" includeemptydirs="true" quiet="true">
+                        <fileset dir="${dist.dir}/tmp/cache/models">
+                                <include name="**/*" />
+                        </fileset>
+                </delete>
+                <!--
+                <delete verbose="true" includeemptydirs="true">
+                        <fileset dir="${dist.dir}/plugins">
+                                <include name="**/*" />
+                        </fileset>
+                </delete>
+                <delete verbose="true" includeemptydirs="true">
+                        <fileset dir="${dist.dir}/src">
+                                <include name="**/*" />
+                        </fileset>
+                </delete>-->
+        </target>
+        <!-- Copy all the files to build/ so they can be packaged up. -->
+        <target name="copy-files" depends="clean">
+                <mkdir dir="${dist.dir}" />
+                <copy todir="${dist.dir}">
+                        <fileset refid="libs" />
+                </copy>
+        </target>
+        <!-- Top level easy to type targets -->
+        <target name="build" depends="copy-files" >
+                <echo>build success ...</echo>
+        </target>
+</project>
