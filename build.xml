@@ -11,7 +11,7 @@
         </fileset>
         <!-- clean cache files -->
         <target name="clean">
-                <delete verbose="true" includeemptydirs="true" quiet="true">
+            <!-- <delete verbose="true" includeemptydirs="true" quiet="true">
                         <fileset dir="${dist.dir}/tmp/cache/persistent">
                                 <include name="**/*" />
                         </fileset>
@@ -21,7 +21,6 @@
                                 <include name="**/*" />
                         </fileset>
                 </delete>
-                <!--
                 <delete verbose="true" includeemptydirs="true">
                         <fileset dir="${dist.dir}/plugins">
                                 <include name="**/*" />
