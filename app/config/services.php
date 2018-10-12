@@ -56,31 +56,14 @@ $di->setShared('view', function () {
 
     return $view;
 });
-/* $di->set('profiler', function(){
+$di->set('profiler', function(){
     return new \Phalcon\Db\Profiler();
-}, true); */
+}, true);
 /**
  * Database connection is created based in the parameters defined in the configuration file
  */
 $di->setShared('db', function ()use($di) {
     $config = $this->getConfig();
-   /*  //新建一个事件管理器
-    $eventsManager = new \Phalcon\Events\Manager();
-    
-    //从di中获取共享的profiler实例
-    $profiler = $di->getProfiler();
-    
-    //监听所有的db事件
-    $eventsManager->attach('db', function($event, $connection) use ($profiler) {
-        //一条语句查询之前事件，profiler开始记录sql语句
-        if ($event->getType() == 'beforeQuery') {
-            $profiler->startProfile($connection->getSQLStatement());
-        }
-        //一条语句查询结束，结束本次记录，记录结果会保存在profiler对象中
-        if ($event->getType() == 'afterQuery') {
-            $profiler->stopProfile();
-        }
-    }); */
     $class = 'Phalcon\Db\Adapter\Pdo\\' . $config->database->adapter;
     $params = [
         'host'     => $config->database->host,
@@ -93,10 +76,28 @@ $di->setShared('db', function ()use($di) {
     if ($config->database->adapter == 'Postgresql') {
         unset($params['charset']);
     }
-
     $connection = new $class($params);
-    //将事件管理器绑定到db实例中
-    //$connection->setEventsManager($eventsManager);
+    if($config->debug){
+        //新建一个事件管理器
+        $eventsManager = new \Phalcon\Events\Manager();
+        
+        //从di中获取共享的profiler实例
+        $profiler = $di->getProfiler();
+        
+        //监听所有的db事件
+        $eventsManager->attach('db', function($event, $connection) use ($profiler) {
+            //一条语句查询之前事件，profiler开始记录sql语句
+            if ($event->getType() == 'beforeQuery') {
+                $profiler->startProfile($connection->getSQLStatement());
+            }
+            //一条语句查询结束，结束本次记录，记录结果会保存在profiler对象中
+            if ($event->getType() == 'afterQuery') {
+                $profiler->stopProfile();
+            }
+        });
+        //将事件管理器绑定到db实例中
+        $connection->setEventsManager($eventsManager);
+    }
     return $connection;
 });
 
@@ -128,4 +129,18 @@ $di->setShared('session', function () {
     $session->start();
 
     return $session;
+});
+//在\Phalcon\DI\FactoryDefault()中默认ORM的缓存使用modelsCache名进行注册，所有我们也使用同样的名字进行注册以覆盖默认的modelsCache。
+$di->set('modelsCache', function () {
+    $config = $this->getConfig();
+    //全局默认有效时间缓存1天
+    $frontCache = new Phalcon\Cache\Frontend\Data([
+        "lifetime" => 86400  
+    ]);
+    $cache = new Phalcon\Cache\Backend\File(
+        $frontCache,
+        [
+            'cacheDir' => $config->application->cacheDir
+        ]);
+    return $cache;
 });

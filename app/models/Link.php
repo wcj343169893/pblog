@@ -1,6 +1,6 @@
 <?php
 
-class Link extends \Phalcon\Mvc\Model
+class Link extends BaseModel
 {
 
     /**
@@ -50,28 +50,6 @@ class Link extends \Phalcon\Mvc\Model
     public function getSource()
     {
         return 'link';
-    }
-
-    /**
-     * Allows to query a set of records that match the specified conditions
-     *
-     * @param mixed $parameters
-     * @return Link[]|Link|\Phalcon\Mvc\Model\ResultSetInterface
-     */
-    public static function find($parameters = null)
-    {
-        return parent::find($parameters);
-    }
-
-    /**
-     * Allows to query the first record that match the specified conditions
-     *
-     * @param mixed $parameters
-     * @return Link|\Phalcon\Mvc\Model\ResultInterface
-     */
-    public static function findFirst($parameters = null)
-    {
-        return parent::findFirst($parameters);
     }
 
 }

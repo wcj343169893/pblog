@@ -1,6 +1,6 @@
 <?php
 
-class ArticleWithTags extends \Phalcon\Mvc\Model
+class ArticleWithTags extends BaseModel
 {
 
     /**
@@ -64,26 +64,5 @@ class ArticleWithTags extends \Phalcon\Mvc\Model
         return 'article_with_tags';
     }
 
-    /**
-     * Allows to query a set of records that match the specified conditions
-     *
-     * @param mixed $parameters
-     * @return ArticleWithTags[]|ArticleWithTags|\Phalcon\Mvc\Model\ResultSetInterface
-     */
-    public static function find($parameters = null)
-    {
-        return parent::find($parameters);
-    }
-
-    /**
-     * Allows to query the first record that match the specified conditions
-     *
-     * @param mixed $parameters
-     * @return ArticleWithTags|\Phalcon\Mvc\Model\ResultInterface
-     */
-    public static function findFirst($parameters = null)
-    {
-        return parent::findFirst($parameters);
-    }
 
 }

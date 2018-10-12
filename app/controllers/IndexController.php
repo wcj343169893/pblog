@@ -18,7 +18,6 @@ class IndexController extends ControllerBase
      */
     public function indexAction($key = "")
     {
-        // $currentPage = $this->request->getQuery("page", "int");
         $currentPage = $this->dispatcher->getParam(0);
         if (empty($currentPage)) {
             $currentPage = 1;
@@ -73,10 +72,7 @@ class IndexController extends ControllerBase
             ]);
         }
         // 增加浏览量
-        $articles->articleViewCount = $articles->articleViewCount + 1;
-        if ($articles->save()) {
-            // 保存成功
-        }
+        $success = $this->di->get('db')->query("update article set articleViewCount = articleViewCount+1 where id = $id");
         $this->set("data", $articles);
         $this->set("tagNames", $this->getTagStyles());
         $this->setLayoutTitle($articles->articleTitle);

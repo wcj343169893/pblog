@@ -11,6 +11,7 @@ $profiles = $this->di->get('profiler')->getProfiles();
 ?>
 <?php
 // 遍历输出
+if(!empty($profiles)){
 foreach ($profiles as $profile) {
     ?>
 <tr>
@@ -19,5 +20,5 @@ foreach ($profiles as $profile) {
 		<td><?= $profile->getFinalTime()?></td>
 		<td><?= $profile->getTotalElapsedSeconds()?></td>
 	</tr>
-<?php }?>
+<?php }}?>
 </table>
