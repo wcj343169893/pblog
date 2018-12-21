@@ -39,6 +39,13 @@ $router->add("/link\.{type:[a-z]+}", [
     "action" => "link"
 ]);
 /**
+ * 检测是否关注
+ */
+$router->add("/following\.{type:[a-z]+}", [
+    "controller" => "index",
+    "action" => "following"
+]);
+/**
  * 所有标签
  */
 $router->add("/tags\.{type:[a-z]+}", [
