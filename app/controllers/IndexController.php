@@ -166,6 +166,46 @@ class IndexController extends ControllerBase
         $this->setLayoutTitle("访问错误");
     }
 
+    public function followingAction(){
+        $token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NDUzNjg2MDQsImV4cCI6MTg2MDcyODYwNCwidWlkIjoiNDE3OTA1MiIsInVzZXJuYW1lIjoiMTAwMDAwMDBmQHFxLmNvbSJ9.5zbjK3fJOPw7kiLnLVO2m8BqEv3a2Bst-IUrFarjlzU";
+        $url="http://www.suyet.info/m/user/following?jwt=";
+        $data = $this->httpGet($url.$token);
+        $data=json_decode($data);
+        if(!empty($data)){
+            $out=[];
+            foreach ($data as $da){
+                if(in_array($da->uid, [4245978,4133835]) && $da->live_status){
+                    $out[]=$da->uid;//$da->username;
+                }
+            }
+            if(!empty($out)){
+                $qu=[
+                    "id"=>implode(" ", $out),
+                    "uid"=>1554141,
+                    "name"=>"用户",
+                    "url"=>"",
+                ];
+                //调用微信通知
+                $this->httpGet("http://www.mofing.com/wechat/pages/sendbdkmessage.json?".http_build_query($qu));
+            }
+            $this->set("data", $out);
+        }
+    }
+    
+    private function httpGet($url)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 500);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($curl, CURLOPT_URL, $url);
+        
+        $res = curl_exec($curl);
+        curl_close($curl);
+        
+        return $res;
+    }
     /**
      * 查询当前热门的标签
      *
