@@ -1,5 +1,6 @@
 <?php
 use Phalcon\Paginator\Adapter\Model as PaginatorModel;
+use Phalcon\Mvc\View;
 
 class IndexController extends ControllerBase
 {
@@ -171,8 +172,8 @@ class IndexController extends ControllerBase
         $url="http://www.suyet.info/m/user/following?jwt=";
         $data = $this->httpGet($url.$token);
         $data=json_decode($data);
+        $out=[];
         if(!empty($data)){
-            $out=[];
             foreach ($data as $da){
                 if(in_array($da->uid, [4245978,4133835]) && $da->live_status){
                     $out[]=$da->uid;//$da->username;
@@ -188,8 +189,17 @@ class IndexController extends ControllerBase
                 //调用微信通知
                 $this->httpGet("http://www.mofing.com/wechat/pages/sendbdkmessage.json?".http_build_query($qu));
             }
-            $this->set("data", $out);
         }
+        $this->view->disableLevel(array(
+            View::LEVEL_ACTION_VIEW => true,
+            View::LEVEL_LAYOUT => true,
+            View::LEVEL_MAIN_LAYOUT => true,
+            View::LEVEL_AFTER_TEMPLATE => true,
+            View::LEVEL_BEFORE_TEMPLATE => true
+        ));
+        //返回json格式
+        $this->response->setContentType('application/json', 'UTF-8');
+        echo json_encode($out);
     }
     
     private function httpGet($url)
