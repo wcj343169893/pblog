@@ -180,14 +180,27 @@ class IndexController extends ControllerBase
                 }
             }
             if(!empty($out)){
-                $qu=[
-                    "id"=>implode(" ", $out),
-                    "uid"=>1554141,
-                    "name"=>"用户",
-                    "url"=>"",
-                ];
-                //调用微信通知
-                $this->httpGet("http://www.mofing.com/wechat/pages/sendbdkmessage.json?".http_build_query($qu));
+                //12小时
+                $lifetime=43200;
+                /**
+                 * 
+                 * @var \Phalcon\Cache\Backend\File $cache
+                 */
+                $cache = $this->getDI()->get('cache');
+                $key="follow_".implode("_", $out);
+                $isSend = $cache->get($key,$lifetime);
+                if(empty($isSend)){
+                    //如果12小时内存在，则不再推送
+                    $qu=[
+                        "id"=>implode(" ", $out),
+                        "uid"=>1554141,
+                        "name"=>"用户",
+                        "url"=>"",
+                    ];
+                    //调用微信通知
+                    $this->httpGet("http://www.mofing.com/wechat/pages/sendbdkmessage.json?".http_build_query($qu));
+                    $cache->save($key,"ok",$lifetime);
+                }
             }
         }
         $this->view->disableLevel(array(

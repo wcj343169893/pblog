@@ -144,3 +144,12 @@ $di->set('modelsCache', function () {
         ]);
     return $cache;
 });
+/**
+ * DI注册缓存服务
+ * https://gitee.com/KevinJay/PhalconCMS/blob/master/app/core/services.php
+ */
+$di -> setShared('cache', function() use($config){
+    return new \Phalcon\Cache\Backend\File(new \Phalcon\Cache\Frontend\Output(), array(
+        'cacheDir' => $config->application->cacheDir
+    ));
+});
